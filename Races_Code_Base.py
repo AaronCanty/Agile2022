@@ -37,8 +37,8 @@ def runners_data():
         split_line = line.split(",")
         if len(split_line) ==2:
             runners_name.append(split_line[0])
-        id = split_line[1].strip("\n")
-        runners_id.append(id)
+            id = split_line[1].strip("\n")
+            runners_id.append(id)
     return runners_name, runners_id
 
 
@@ -230,12 +230,12 @@ def main():
            "\n6. Show all competitors who have won a race \n7. Quit \n>>> "
     input_menu = read_integer_between_numbers(MENU, 1, 7)
 
-    while input_menu != 7:
+    while True:
         if input_menu == 1:
             id, time_taken, venue = race_results(races_location)
             fastest_runner = winner_of_race(id, time_taken)
             display_races(id, time_taken, venue, fastest_runner)
-        elif input_menu != 2:
+        elif input_menu == 2:
             users_venue(races_location, runners_id)
         elif input_menu == 3:
             competitors_by_county(runners_name, runners_id)
@@ -246,6 +246,9 @@ def main():
             displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
+        elif input_menu == 7:
+            print("Goodbye!")
+            break
         print()
         input_menu = read_integer_between_numbers(MENU, 1, 7)
     updating_races_file(races_location)
