@@ -2,7 +2,7 @@ def read_integer_between_numbers(prompt, mini, maximum):
     while True:
         try:
             users_input = int(input(prompt))
-            if maximum <= users_input >= mini:
+            if mini <= users_input <= maximum:
                 return users_input
             else:
                 print(f"Numbers from {mini} to {maximum} only.")
