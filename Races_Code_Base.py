@@ -109,12 +109,12 @@ def updating_races_file(races_location):
 
 
 def competitors_by_county(name, id):
-    print("Cork runners")
+    print("Cork Runners")
     print("=" * 20)
     for i in range(len(name)):
         if id[i].startswith("CK"):
             print(f"{name[i]} ({id[i]})")
-    print("Kerry runners")
+    print("Kerry Runners")
     print("=" * 20)
     for i in range(len(name)):
         if id[i].startswith("KY"):
