@@ -4,19 +4,27 @@
     <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="ignoredErrors">
         <list>
+<<<<<<< HEAD
           <option value="N806" />
+=======
+          <option value="N802" />
+>>>>>>> ecea885b8180e8456f429b18e85806e523985992
         </list>
       </option>
     </inspection_tool>
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <list>
+<<<<<<< HEAD
           <option value="int.isdigit" />
           <option value="str.append" />
           <option value="int.append" />
           <option value="list.replace" />
           <option value="list.mean" />
           <option value="list.unique" />
+=======
+          <option value="list.dropna" />
+>>>>>>> ecea885b8180e8456f429b18e85806e523985992
         </list>
       </option>
     </inspection_tool>
