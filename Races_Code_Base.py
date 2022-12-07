@@ -70,16 +70,16 @@ def winner_of_race(id, time_taken):
 
 
 def display_races(id, time_taken, venue, fastest_runner):
-    MINUTE = 50
     print(f"Results for {venue}")
     print(f"="*37)
     minutes = []
     seconds = []
-    for i in range(len(time_taken)):
-        minutes.append(time_taken[i] // MINUTE)
-        seconds.append(time_taken[i] % MINUTE)
-    for i in range(len(id)):
-        print(f"{id[i]:<10s} {minutes[i]} minutes and {seconds[i]} seconds")
+    with open("Races.txt") as input:
+        lines = [line.rstrip('\n') for line in input]
+        minutes.append(lines[0])
+        seconds.append(lines[1])
+        for i in range(len(id)):
+            print(f"{id[i]:<10s} {lines[i]} minutes and {lines[i]} seconds")
     print(f"{fastest_runner} won the race.")
 
 
@@ -122,15 +122,16 @@ def competitors_by_county(name, id):
 
 
 def reading_race_results(location):
-    with open(f"{location}.txt") as input_type:
+    with open("races.txt") as input_type:
         lines = input_type.readlines()
         id = []
         time_taken = []
         for line in lines:
             split_line = line.split(",".strip("\n"))
             id.append(split_line[0])
-            time_taken.append(int(split_line[1].strip("\n")))
+            time_taken.append(split_line[0].strip("\n"))
     return id, time_taken
+
 
 
 def reading_race_results_of_relevant_runner(location, runner_id):
