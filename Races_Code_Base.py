@@ -45,7 +45,7 @@ def runners_data():
 def race_results(races_location):
     for i in range(len(races_location)):
         print(f"{i}: {races_location[i]}")
-    user_input = read_integer_between_numbers("Choice > ", 1, len(races_location))
+    user_input = read_integer_between_numbers("Choice >>> ", 1, len(races_location))
     venue = races_location[user_input - 1]
     id, time_taken = reading_race_results(venue)
     return id, time_taken, venue
@@ -102,19 +102,19 @@ def users_venue(races_location, runners_id):
 
 
 def updating_races_file(races_location):
-    connection = open(f"races.txt", "w")
+    connection = open(f"Races.txt", "w")
     for i in range(len(races_location)):
         print(races_location[i], file=connection)
     connection.close()
 
 
 def competitors_by_county(name, id):
-    print("Cork runners")
+    print("Cork Runners")
     print("=" * 20)
     for i in range(len(name)):
         if id[i].startswith("CK"):
             print(f"{name[i]} ({id[i]})")
-    print("Kerry runners")
+    print("Kerry Runners")
     print("=" * 20)
     for i in range(len(name)):
         if id[i].startswith("KY"):
@@ -228,8 +228,9 @@ def main():
     runners_name, runners_id = runners_data()
     MENU = "1. Show the results for a race \n2. Add results for a race \n3. Show all competitors by county " \
            "\n4. Show the winner of each race \n5. Show all the race times for one competitor " \
-           "\n6. Show all competitors who have won a race \n7. Quit \n>>> "
-    input_menu = read_integer_between_numbers(MENU, 1, 7)
+           "\n6. Show all competitors who have won a race \n7. Display the podium-places of each race." \
+           "\n8. Show all the competitors who have not taken a podium-position in any race .\n9. Quit \n>>> "
+    input_menu = read_integer_between_numbers(MENU, 1, 9)
 
     while True:
         if input_menu == 1:
@@ -247,11 +248,11 @@ def main():
             displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
-        elif input_menu == 7:
+        elif input_menu == 9:
             print("Goodbye!")
             break
         print()
-        input_menu = read_integer_between_numbers(MENU, 1, 7)
+        input_menu = read_integer_between_numbers(MENU, 1, 9)
     updating_races_file(races_location)
 
 
