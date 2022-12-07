@@ -102,7 +102,7 @@ def users_venue(races_location, runners_id):
 
 
 def updating_races_file(races_location):
-    connection = open(f"races.txt", "w")
+    connection = open(f"Races.txt", "w")
     for i in range(len(races_location)):
         print(races_location[i], file=connection)
     connection.close()
@@ -227,8 +227,9 @@ def main():
     runners_name, runners_id = runners_data()
     MENU = "1. Show the results for a race \n2. Add results for a race \n3. Show all competitors by county " \
            "\n4. Show the winner of each race \n5. Show all the race times for one competitor " \
-           "\n6. Show all competitors who have won a race \n7. Quit \n>>> "
-    input_menu = read_integer_between_numbers(MENU, 1, 7)
+           "\n6. Show all competitors who have won a race \n7. Display the podium-places of each race." \
+           "\n8. Show all the competitors who have not taken a podium-position in any race .\n9. Quit \n>>> "
+    input_menu = read_integer_between_numbers(MENU, 1, 9)
 
     while True:
         if input_menu == 1:
@@ -246,11 +247,11 @@ def main():
             displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
-        elif input_menu == 7:
+        elif input_menu == 9:
             print("Goodbye!")
             break
         print()
-        input_menu = read_integer_between_numbers(MENU, 1, 7)
+        input_menu = read_integer_between_numbers(MENU, 1, 9)
     updating_races_file(races_location)
 
 
