@@ -248,6 +248,10 @@ def main():
             displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
+        elif input_menu == 7:
+            displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
+        elif input_menu == 8:
+            displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
         elif input_menu == 9:
             print("Goodbye!")
             break
