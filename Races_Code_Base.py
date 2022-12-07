@@ -52,7 +52,7 @@ def race_results(races_location):
 
 
 def race_venues():
-    with open("Races.txt") as input:
+    with open("races.txt") as input:
         lines = input.readlines()
     races_location = []
     for line in lines:
@@ -102,7 +102,7 @@ def users_venue(races_location, runners_id):
 
 
 def updating_races_file(races_location):
-    connection = open(f"Races.txt", "w")
+    connection = open(f"races.txt", "w")
     for i in range(len(races_location)):
         print(races_location[i], file=connection)
     connection.close()
@@ -122,14 +122,14 @@ def competitors_by_county(name, id):
 
 
 def reading_race_results(location):
-    with open(f"{location}.txt") as input_type:
+    with open("races.txt") as input_type:
         lines = input_type.readlines()
     id = []
     time_taken = []
     for line in lines:
         split_line = line.split(",".strip("\n"))
         id.append(split_line[0])
-        time_taken.append(int(split_line[1].strip("\n")))
+        time_taken.append(split_line[0].strip("\n"))
     return id, time_taken
 
 
@@ -150,7 +150,7 @@ def reading_race_results_of_relevant_runner(location, runner_id):
 
 
 def displaying_winners_of_each_race(races_location):
-    print("Venue             Looser")
+    print("Venue             Loser")
     print("="*24)
     for i in range(len(races_location)):
         id, time_taken = reading_race_results(races_location[i])
