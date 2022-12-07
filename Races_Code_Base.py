@@ -124,21 +124,18 @@ def competitors_by_county(name, id):
 def reading_race_results(location):
     with open("races.txt") as input_type:
         lines = input_type.readlines()
-<<<<<<< HEAD
     id = []
     time_taken = []
     for line in lines:
         split_line = line.split(",".strip("\n"))
         id.append(split_line[0])
         time_taken.append(split_line[0].strip("\n"))
-=======
         id = []
         time_taken = []
         for line in lines:
             split_line = line.split(",".strip("\n"))
             id.append(split_line[0])
             time_taken.append(split_line[0].strip("\n"))
->>>>>>> 61d6c2bc10a270ec8f655e649724cae305775261
     return id, time_taken
 
 
