@@ -68,19 +68,64 @@ def winner_of_race(id, time_taken):
             winner = id[i]
     return winner
 
+def read_all_files(FILENAME):
+    '''
+    Takes input and opens a file of the races name. Then can feed back with results already
+    converted into minutes and seconds.
+    '''
+    file_connection = open(FILENAME.lower(), "r")
+    race_runners_id = []
+    race_runners_time_mins = []
+    race_runners_time_secs = []
+    for runner in file_connection:
+        line_split = runner.strip().split(",")
+        if len(line_split) > 1:
+            race_runners_id.append(line_split[0])
+            race_runners_time = line_split[1]
+            # Converting time to minutes and seconds for output
+            race_runners_min = int(race_runners_time) // 60
+            race_runners_sec = int(race_runners_time) % 60
+            race_runners_time_mins.append(race_runners_min)
+            race_runners_time_secs.append(race_runners_sec)
+    file_connection.close()  # Closes file connection
+    return race_runners_id, race_runners_time_mins, race_runners_time_secs
 
-def display_races(id, time_taken, venue, fastest_runner):
-    print(f"Results for {venue}")
-    print(f"=" * 37)
-    minutes = []
-    seconds = []
-    with open("Races.txt") as input:
-        lines = [line.rstrip('\n') for line in input]
-        minutes.append(lines[0])
-        seconds.append(lines[1])
-        for i in range(len(id)):
-            print(f"{id[i]:<10s} {lines[i]} minutes and {lines[i]} seconds")
-    print(f"{fastest_runner} won the race.")
+def show_results_race():  # Menu option No. 1
+
+    print(f'{"-" * 30}')
+    print("Show Results")
+    print(f'{"-" * 30}')
+    races = read_races_file()
+    count = 1
+    for race in races:
+        print(f'{count}. {race}')
+        count = count+1
+    MENU = "Type what race you would like (Check Spelling) >>> "
+    race_option = int(input(MENU).lower())
+    if 1 <= race_option < count:
+        FILENAME = races[race_option-1] + ".txt"
+        race_runners_id, race_runners_time_mins, race_runners_time_secs = read_all_files(FILENAME)
+        print()
+        print(f'{"-" * 30}')
+        print(f'{races[race_option-1]} Results')
+        print(f'{"-" * 30}')
+        fastest_time = 999999
+        fastest_runner = ""
+        for i in range(len(race_runners_id)):
+            # Convert time back for easier calculations
+            total_time = (race_runners_time_mins[i] * 60) + race_runners_time_secs[i]
+            print(f'{race_runners_id[i]:7}{race_runners_time_mins[i]:3}{" Mins "}{race_runners_time_secs[i]:2}{" Seconds"}')
+            if total_time < fastest_time:
+                fastest_time = total_time
+                fastest_runner = race_runners_id[i]
+            else:
+                continue
+        print()
+        print(f'{fastest_runner} won the race.')
+        return
+    elif race_option >= count:
+        print()
+        print("Invalid option")
 
 
 def users_venue(races_location, runners_id):
@@ -323,9 +368,7 @@ def main():
 
     while True:
         if input_menu == 1:
-            id, time_taken, venue = race_results(races_location)
-            fastest_runner = winner_of_race(id, time_taken)
-            display_races(id, time_taken, venue, fastest_runner)
+            show_results_race()
         elif input_menu == 2:
             users_venue(races_location, runners_id)
         elif input_menu == 3:
