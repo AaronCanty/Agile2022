@@ -164,13 +164,13 @@ def displaying_winners_of_each_race(races_location):
         print(f"{races_location[i]:<18s}{fastest_runner}")
 
 
-def relevant_runner_info(runners_name, runners_id):
-    for i in range(len(runners_name)):
-        print(f"{i + 1}: {runners_name[i]}")
-    user_input = read_integer_between_numbers("Which Runner > ", 1, len(runners_name))
-    runner = runners_name[user_input - 1]
-    id = runners_id[user_input - 1]
-    return runner, id
+# def relevant_runner_info(runners_name, runners_id):
+#     for i in range(len(runners_name)):
+#         print(f"{i + 1}: {runners_name[i]}")
+#     user_input = read_integer_between_numbers("Which Runner > ", 1, len(runners_name))
+#     runner = runners_name[user_input - 1]
+#     id = runners_id[user_input - 1]
+#     return runner, id
 
 
 def convert_time_to_minutes_and_seconds(time_taken):
@@ -193,15 +193,15 @@ def sorting_where_runner_came_in_race(location, time):
     return time_taken.index(time) + 1, len(lines)
 
 
-def displaying_race_times_one_competitor(races_location, runner, id):
-    print(f"{runner} ({id})")
-    print(f"-" * 35)
-    for i in range(len(races_location)):
-        time_taken = reading_race_results_of_relevant_runner(races_location[i], id)
-        if time_taken is not None:
-            minutes, seconds = convert_time_to_minutes_and_seconds(time_taken)
-            came_in_race, number_in_race = sorting_where_runner_came_in_race(races_location[i], time_taken)
-            print(f"{races_location[i]} {minutes} mins {seconds} secs ({came_in_race} of {number_in_race})")
+# def displaying_race_times_one_competitor(races_location, runner, id):
+#     print(f"{runner} ({id})")
+#     print(f"-" * 35)
+#     for i in range(len(races_location)):
+#         time_taken = reading_race_results_of_relevant_runner(races_location[i], id)
+#         if time_taken is not None:
+#             minutes, seconds = convert_time_to_minutes_and_seconds(time_taken)
+#             came_in_race, number_in_race = sorting_where_runner_came_in_race(races_location[i], time_taken)
+#             print(f"{races_location[i]} {minutes} mins {seconds} secs ({came_in_race} of {number_in_race})")
 
 
 def finding_name_of_winner(fastest_runner, id, runners_name):
@@ -228,7 +228,7 @@ def displaying_runners_who_have_won_at_least_one_race(races_location, runners_na
         print(f"{runners[i]} ({fastest_runner})")
 
 
-def one_runner_race_times():
+def displaying_race_times_one_competitor():
     runners_names, runners_id = read_runners_file()
     count = 1
     for i in range(len(runners_names)):
@@ -324,7 +324,7 @@ def main():
         elif input_menu == 4:
             displaying_winners_of_each_race(races_location)
         elif input_menu == 5:
-            one_runner_race_times()
+            displaying_race_times_one_competitor()
             # runner, id = relevant_runner_info(runners_name, runners_id)
             # displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
