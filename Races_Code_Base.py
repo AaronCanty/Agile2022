@@ -253,20 +253,33 @@ def finding_name_of_winner(fastest_runner, id, runners_name):
     return runner
 
 
-def displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id):
-    print(f"The following runners have all won at least one race:")
-    print(f"-" * 55)
-    winners = []
-    runners = []
-    for i, location in enumerate(races_location):
-        id, time_taken = reading_race_results(location)
-        fastest_runner = winner_of_race(id, time_taken)
-        name_of_runner = finding_name_of_winner(fastest_runner, runners_id, runners_name)
-        if fastest_runner not in winners:
-            winners.append(fastest_runner)
-            runners.append(name_of_runner)
-    for i, fastest_runner in enumerate(winners):
-        print(f"{runners[i]} ({fastest_runner})")
+# def displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id):
+#     print(f"The following runners have all won at least one race:")
+#     print(f"-" * 55)
+#     winners = []
+#     runners = []
+#     for i, location in enumerate(races_location):
+#         id, time_taken = reading_race_results(location)
+#         fastest_runner = winner_of_race(id, time_taken)
+#         name_of_runner = finding_name_of_winner(fastest_runner, runners_id, runners_name)
+#         if fastest_runner not in winners:
+#             winners.append(fastest_runner)
+#             runners.append(name_of_runner)
+#     for i, fastest_runner in enumerate(winners):
+#         print(f"{runners[i]} ({fastest_runner})")
+
+
+def displaying_runners_who_have_won_at_least_one_race():
+    winning_ids_checked = []
+    winning_names_checked = []
+    winners_IDS, winners_names = read_all_races_winners()
+    for i in range(len(winners_names)):
+        [winning_ids_checked.append(i) for i in winners_IDS if i not in winning_ids_checked]
+        [winning_names_checked.append(y) for y in winners_names if y not in winning_names_checked]
+
+    for i in range(len(winning_names_checked)):
+        print(f'{winning_names_checked[i]:15} ({winning_ids_checked[i]})')
+    return
 
 
 def displaying_race_times_one_competitor():
@@ -369,11 +382,11 @@ def main():
             # runner, id = relevant_runner_info(runners_name, runners_id)
             # displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
-            displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
+            displaying_runners_who_have_won_at_least_one_race()
         elif input_menu == 7:
-            displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
+            displaying_runners_who_have_won_at_least_one_race()
         elif input_menu == 8:
-            displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
+            displaying_runners_who_have_won_at_least_one_race()
         elif input_menu == 9:
             print("Goodbye!")
             break
