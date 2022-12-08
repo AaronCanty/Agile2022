@@ -155,13 +155,54 @@ def reading_race_results_of_relevant_runner(location, runner_id):
     return None
 
 
-def displaying_winners_of_each_race(races_location):
-    print("Venue             Loser")
-    print("=" * 24)
-    for i in range(len(races_location)):
-        id, time_taken = reading_race_results(races_location[i])
-        fastest_runner = winner_of_race(id, time_taken)
-        print(f"{races_location[i]:<18s}{fastest_runner}")
+# def displaying_winners_of_each_race(races_location):
+#     print("Venue             Loser")
+#     print("=" * 24)
+#     for i in range(len(races_location)):
+#         id, time_taken = reading_race_results(races_location[i])
+#         fastest_runner = winner_of_race(id, time_taken)
+#         print(f"{races_location[i]:<18s}{fastest_runner}")
+
+
+def displaying_winners_of_each_race():
+    races = read_races_file()
+    winners_IDS, winners_names = read_all_races_winners()
+    print(f'Race{" "*14}ID')
+    print(f'{"-"*30}')
+    for i in range(len(winners_names)):
+        print(f'{races[i]:16}{winners_IDS[i]}')
+    return
+
+
+def read_all_races_winners():
+    races = read_races_file()
+    runners_id = []
+    winners_IDS = []
+    winners_names = []
+    for race_name in races:
+        FILENAME = race_name.lower() + ".txt"
+        file_connection = open(FILENAME, "r")
+        fastest_time = 999999
+        winning_runner_id = ""
+        for runner in file_connection:
+            line_split = runner.strip().split(",")
+            if len(line_split) > 1:
+                runners_id.append(line_split[0].strip(","))
+                runners_time = line_split[1]
+                if int(runners_time) < fastest_time:
+                    fastest_time = int(runners_time)
+                    winning_runner_id = line_split[0].strip(",")
+                else:
+                    continue
+        winners_IDS.append(winning_runner_id)
+        all_runners_names, all_runners_id = read_runners_file()
+        for i in range(len(all_runners_id)):
+            if all_runners_id[i] == winning_runner_id:
+                winners_names.append(all_runners_names[i])
+            else:
+                continue
+    file_connection.close()  # Closes file connection
+    return winners_IDS, winners_names
 
 
 # def relevant_runner_info(runners_name, runners_id):
@@ -322,7 +363,7 @@ def main():
         elif input_menu == 3:
             competitors_by_county(runners_name, runners_id)
         elif input_menu == 4:
-            displaying_winners_of_each_race(races_location)
+            displaying_winners_of_each_race()
         elif input_menu == 5:
             displaying_race_times_one_competitor()
             # runner, id = relevant_runner_info(runners_name, runners_id)
