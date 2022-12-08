@@ -356,6 +356,30 @@ def read_races_file():
     file_connection.close()  # Closes file connection
     return races
 
+def get_podium_places(races_locations):
+    first_place = races_locations[0]
+    second_place = races_locations[1]
+    third_place = races_locations[2]
+    return first_place, second_place, third_place
+
+
+def display_podium_places(first_place, second_place, third_place):
+    print("First place: ", first_place)
+    print("Second place: ", second_place)
+    print("Third place: ", third_place)
+
+
+def get_non_podium_finishers(races_locations):
+    podium_finishers = set(races_locations[:3])
+    non_podium_finishers = []
+    for finisher in races_locations:
+        if finisher not in podium_finishers:
+            non_podium_finishers.append(finisher)
+            return non_podium_finishers
+
+
+def display_non_podium_finishers(non_podium_finishers):
+    print("Non-podium positions: ", non_podium_finishers)
 
 def main():
     races_location = race_venues()
@@ -380,9 +404,11 @@ def main():
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race()
         elif input_menu == 7:
-            displaying_runners_who_have_won_at_least_one_race()
+            first_place, second_place, third_place = get_podium_places(races_location)
+            display_podium_places(first_place, second_place, third_place)
         elif input_menu == 8:
-            displaying_runners_who_have_won_at_least_one_race()
+            non_podium_finishers = get_non_podium_finishers(races_location)
+            display_non_podium_finishers(non_podium_finishers)
         elif input_menu == 9:
             print("Goodbye!")
             break
