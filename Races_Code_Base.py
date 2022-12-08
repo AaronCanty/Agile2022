@@ -228,6 +228,81 @@ def displaying_runners_who_have_won_at_least_one_race(races_location, runners_na
         print(f"{runners[i]} ({fastest_runner})")
 
 
+def one_runner_race_times():
+    runners_names, runners_id = read_runners_file()
+    count = 1
+    for i in range(len(runners_names)):
+        # Printing all runners names for a menu to choose from
+        print(f'{i + 1}. {runners_names[i]}')
+        count = count + 1
+    print()
+    while True:
+        try:
+            MENU = "What runners results would you like? (1-5) >>> "
+            runner_option = int(input(MENU))
+            if 1 <= runner_option <= len(runners_names):
+                # Getting runners name and ID for printing out results
+                runners_name = runners_names[runner_option - 1]
+                runner_id = runners_id[runner_option - 1]
+                print()
+                print(f'{runners_name} ({runner_id})')
+                print(f'{"-" * 30}')
+                races = read_races_file()
+                for race_name in races:
+                    FILENAME = race_name.lower() + ".txt"
+                    file_connect = open(FILENAME, "r")
+                    ids = []
+                    runners_time = []
+                    for runner in file_connect:
+                        line_split = runner.strip().split(",")
+                        if len(line_split) > 1:
+                            ids.append(line_split[0])
+                            runners_time.append(line_split[1])
+                    for i in range(len(ids)):
+                        if ids[i] == runner_id:
+                            runners_time_mins = int(runners_time[i]) // 60
+                            runners_time_secs = int(runners_time[i]) % 60
+                            print(f'{race_name:15}{runners_time_mins:3} mins {runners_time_secs:2} secs')
+                        else:
+                            continue
+                    file_connect.close()  # Closes file connection
+                return
+            else:
+                print()
+                print("Invalid option")
+
+        except ValueError:  # Error Message if invalid choice made in Menu
+            print()
+            print("Value Error!")
+
+
+def read_runners_file():
+    FILENAME = "runners.txt"
+    file_connection = open(FILENAME, "r")
+    runners_names = []
+    runners_id = []
+    for runner in file_connection:
+        line_split = runner.split(",")
+        if len(line_split) > 1:
+            line_split[1] = line_split[1].replace("\n", "")
+            runners_names.append(line_split[0])
+            runners_id.append(line_split[1].strip())
+    file_connection.close()  # Closes file connection
+    return runners_names, runners_id
+
+
+def read_races_file():
+    FILENAME = "races.txt"
+    file_connection = open(FILENAME, "r")
+    races = []
+    for race in file_connection:
+        line_split = race.strip().split(",")
+        if len(line_split) > 1:
+            races.append(line_split[0])
+    file_connection.close()  # Closes file connection
+    return races
+
+
 def main():
     races_location = race_venues()
     runners_name, runners_id = runners_data()
@@ -249,8 +324,9 @@ def main():
         elif input_menu == 4:
             displaying_winners_of_each_race(races_location)
         elif input_menu == 5:
-            runner, id = relevant_runner_info(runners_name, runners_id)
-            displaying_race_times_one_competitor(races_location, runner, id)
+            one_runner_race_times()
+            # runner, id = relevant_runner_info(runners_name, runners_id)
+            # displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
         elif input_menu == 7:
