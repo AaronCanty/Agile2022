@@ -391,7 +391,7 @@ def display_podium_places():
             podium_indexs.append(index)
 
         print(f'{race} Podium')
-        print(f'{"-"*20}')
+        print(f'{"-" * 20}')
         print(f'{ids[podium_indexs[0]]}')
         print(f'{ids[podium_indexs[1]]}')
         print(f'{ids[podium_indexs[2]]}\n')
@@ -410,6 +410,28 @@ def race_file(FILENAME):
     file_connection.close()  # Closes file connection
     return race_runners_ids, race_runners_times
 
+
+def display_non_podium_finishers():
+    races = read_races_file()
+    podium_ids = []
+    for race in races:
+        FILENAME = race.lower() + ".txt"
+        ids, times = race_file(FILENAME)
+        sorted_times = sorted(times)
+        for x in range(3):
+            runner_time = sorted_times[x]
+            index = times.index(runner_time)
+            podium_ids.append(ids[index])
+
+    names, ids = read_runners_file()
+    ids = set(ids)
+    non_podium_ids = ids.difference(podium_ids)
+    non_podium_ids = list(non_podium_ids)
+
+    print(f'Non Podium Finishers')
+    print(f'{"-" * 20}')
+    for i in range(len(non_podium_ids)):
+        print(f'{non_podium_ids[i]}')
 
 
 def main():
@@ -435,12 +457,11 @@ def main():
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race()
         elif input_menu == 7:
-            # first_place, second_place, third_place = get_podium_places(races_location)
-            # display_podium_places(first_place, second_place, third_place)
             display_podium_places()
         elif input_menu == 8:
             # non_podium_finishers = get_non_podium_finishers(races_location)
             # display_non_podium_finishers(non_podium_finishers)
+            display_non_podium_finishers()
             print()
         elif input_menu == 9:
             print("Goodbye!")
