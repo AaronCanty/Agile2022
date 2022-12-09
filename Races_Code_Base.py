@@ -68,11 +68,8 @@ def winner_of_race(id, time_taken):
             winner = id[i]
     return winner
 
+
 def read_all_files(FILENAME):
-    '''
-    Takes input and opens a file of the races name. Then can feed back with results already
-    converted into minutes and seconds.
-    '''
     file_connection = open(FILENAME.lower(), "r")
     race_runners_id = []
     race_runners_time_mins = []
@@ -90,31 +87,29 @@ def read_all_files(FILENAME):
     file_connection.close()  # Closes file connection
     return race_runners_id, race_runners_time_mins, race_runners_time_secs
 
-def show_results_race():  # Menu option No. 1
 
-    print(f'{"-" * 30}')
-    print("Show Results")
-    print(f'{"-" * 30}')
+def show_results_race():
     races = read_races_file()
     count = 1
     for race in races:
         print(f'{count}. {race}')
-        count = count+1
+        count = count + 1
     MENU = "Type what race you would like (Check Spelling) >>> "
     race_option = int(input(MENU).lower())
     if 1 <= race_option < count:
-        FILENAME = races[race_option-1] + ".txt"
+        FILENAME = races[race_option - 1] + ".txt"
         race_runners_id, race_runners_time_mins, race_runners_time_secs = read_all_files(FILENAME)
         print()
         print(f'{"-" * 30}')
-        print(f'{races[race_option-1]} Results')
+        print(f'{races[race_option - 1]} Results')
         print(f'{"-" * 30}')
         fastest_time = 999999
         fastest_runner = ""
         for i in range(len(race_runners_id)):
             # Convert time back for easier calculations
             total_time = (race_runners_time_mins[i] * 60) + race_runners_time_secs[i]
-            print(f'{race_runners_id[i]:7}{race_runners_time_mins[i]:3}{" Mins "}{race_runners_time_secs[i]:2}{" Seconds"}')
+            print(
+                f'{race_runners_id[i]:7}{race_runners_time_mins[i]:3}{" Mins "}{race_runners_time_secs[i]:2}{" Seconds"}')
             if total_time < fastest_time:
                 fastest_time = total_time
                 fastest_runner = race_runners_id[i]
@@ -203,8 +198,8 @@ def reading_race_results_of_relevant_runner(location, runner_id):
 def displaying_winners_of_each_race():
     races = read_races_file()
     winners_IDS, winners_names = read_all_races_winners()
-    print(f'Race{" "*14}ID')
-    print(f'{"-"*30}')
+    print(f'Race{" " * 14}ID')
+    print(f'{"-" * 30}')
     for i in range(len(winners_names)):
         print(f'{races[i]:16}{winners_IDS[i]}')
     return
@@ -356,30 +351,66 @@ def read_races_file():
     file_connection.close()  # Closes file connection
     return races
 
-def get_podium_places(races_locations):
-    first_place = races_locations[0]
-    second_place = races_locations[1]
-    third_place = races_locations[2]
-    return first_place, second_place, third_place
+
+# def get_podium_places(races_locations):
+#     first_place = races_locations[0]
+#     second_place = races_locations[1]
+#     third_place = races_locations[2]
+#     return first_place, second_place, third_place
+#
+#
+# def display_podium_places(first_place, second_place, third_place):
+#     print("First place: ", first_place)
+#     print("Second place: ", second_place)
+#     print("Third place: ", third_place)
+#
+#
+# def get_non_podium_finishers(races_locations):
+#     podium_finishers = set(races_locations[:3])
+#     non_podium_finishers = []
+#     for finisher in races_locations:
+#         if finisher not in podium_finishers:
+#             non_podium_finishers.append(finisher)
+#             return non_podium_finishers
+#
+#
+# def display_non_podium_finishers(non_podium_finishers):
+#     print("Non-podium positions: ", non_podium_finishers)
 
 
-def display_podium_places(first_place, second_place, third_place):
-    print("First place: ", first_place)
-    print("Second place: ", second_place)
-    print("Third place: ", third_place)
+def display_podium_places():
+    races = read_races_file()
+    for race in races:
+        FILENAME = race.lower() + ".txt"
+        ids, times = race_file(FILENAME)
+        sorted_times = sorted(times)
+        podium_indexs = []
+        for x in range(3):
+            runner_time = sorted_times[x]
+            index = times.index(runner_time)
+            podium_indexs.append(index)
+
+        print(f'{race} Podium')
+        print(f'{"-"*20}')
+        print(f'{ids[podium_indexs[0]]}')
+        print(f'{ids[podium_indexs[1]]}')
+        print(f'{ids[podium_indexs[2]]}\n')
 
 
-def get_non_podium_finishers(races_locations):
-    podium_finishers = set(races_locations[:3])
-    non_podium_finishers = []
-    for finisher in races_locations:
-        if finisher not in podium_finishers:
-            non_podium_finishers.append(finisher)
-            return non_podium_finishers
+def race_file(FILENAME):
+    file_connection = open(FILENAME.lower(), "r")
+    race_runners_ids = []
+    race_runners_times = []
+    for runner in file_connection:
+        line_split = runner.strip().split(",")
+        if len(line_split) > 1:
+            race_runners_ids.append(line_split[0])
+            race_runners_time = line_split[1]
+            race_runners_times.append(race_runners_time)
+    file_connection.close()  # Closes file connection
+    return race_runners_ids, race_runners_times
 
 
-def display_non_podium_finishers(non_podium_finishers):
-    print("Non-podium positions: ", non_podium_finishers)
 
 def main():
     races_location = race_venues()
@@ -404,11 +435,13 @@ def main():
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race()
         elif input_menu == 7:
-            first_place, second_place, third_place = get_podium_places(races_location)
-            display_podium_places(first_place, second_place, third_place)
+            # first_place, second_place, third_place = get_podium_places(races_location)
+            # display_podium_places(first_place, second_place, third_place)
+            display_podium_places()
         elif input_menu == 8:
-            non_podium_finishers = get_non_podium_finishers(races_location)
-            display_non_podium_finishers(non_podium_finishers)
+            # non_podium_finishers = get_non_podium_finishers(races_location)
+            # display_non_podium_finishers(non_podium_finishers)
+            print()
         elif input_menu == 9:
             print("Goodbye!")
             break
