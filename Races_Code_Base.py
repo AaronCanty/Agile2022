@@ -414,6 +414,7 @@ def race_file(FILENAME):
 def display_non_podium_finishers():
     races = read_races_file()
     podium_ids = []
+    podium_names = []
     for race in races:
         FILENAME = race.lower() + ".txt"
         ids, times = race_file(FILENAME)
@@ -427,11 +428,20 @@ def display_non_podium_finishers():
     ids = set(ids)
     non_podium_ids = ids.difference(podium_ids)
     non_podium_ids = list(non_podium_ids)
+    ids = list(ids)
+    for i in range(len(names)):
+        if ids[i] not in non_podium_ids:
+            podium_names.append(names[i])
+
+    names = set(names)
+    podium_names = set(podium_names)
+    non_podium_names = names.difference(podium_names)
+    non_podium_names = list(non_podium_names)
 
     print(f'Non Podium Finishers')
     print(f'{"-" * 20}')
     for i in range(len(non_podium_ids)):
-        print(f'{non_podium_ids[i]}')
+        print(f'{non_podium_names[i]} {non_podium_ids[i]}')
 
 
 def main():
